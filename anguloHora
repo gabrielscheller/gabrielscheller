@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+
+
+int main(void)
+{
+	int hora, minuto, repete;
+
+    do
+    {
+        repete = 0;
+        system("CLS");//limpar a tela
+        printf("Verificacao de Angulos - Gabriel Scheller\n\n");
+        printf("Insira o horario no formato HH:MM\n");
+        scanf("%d:%d", &hora, &minuto);
+
+        //if(hora >= 0 && hora < 24 && minuto >= 0 && minuto < 60) //se for uma hora válida
+        if(HorarioValido(hora, minuto))
+        {
+            printf("O angulo entre os dois ponteiros no horario %dh%d ficou %d graus\n", hora, minuto, RetornaAngulo(hora, minuto));
+            printf("Digite:\n1 - para repetir o processo\n0 - para fechar o programa.\n");
+            scanf("%d", &repete);
+        }
+        else
+        {
+            printf("Formato de horario invalido, use entre 00 e 23 para horas e de 00 a 59 para minutos\n");
+            printf("Digite:\n1 - para repetir o processo\n0 - para fechar o programa.\n");
+            scanf("%d", &repete);
+        }
+    }
+    while(repete == 1); //repetição do processo
+
+	return 0;
+}
+
+int RetornaAngulo(int Hora, int Minuto)
+{
+	int anguloFinal, valorHora, anguloHora, anguloMinuto;
+
+	valorHora = Hora;
+
+	if(Hora >= 12)
+	{
+		valorHora = Hora - 12;
+	}
+	anguloMinuto = Minuto * 6; //6 porque a cada minuto o ponteiro move 6º (360/60) = 6
+	anguloHora = valorHora * 30; //30 porque a cada hora o ponteiro move 30º (360/12) = 30
+	anguloFinal = anguloMinuto - anguloHora;
+	if(anguloFinal < 0)//nao "existe" angulo negativo
+	{
+        return anguloFinal * -1;
+	}
+	return anguloFinal;
+}
+
+int HorarioValido(int Hora, int Minuto)
+{
+    if(Hora >= 0 && Hora < 24)
+    {
+        if(Minuto >= 0 && Minuto < 60)
+            return 1;
+    }
+    //printf("Formato de horario invalido, use entre 00 e 23 para horas e de 00 a 59 para minutos\n");
+    return 0;
+}
